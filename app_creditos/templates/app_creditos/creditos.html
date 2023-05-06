@@ -4,9 +4,11 @@
 <section>
   <div>
     <h1>Listado de créditos otorgados</h1>
+    <a href="{% url 'crear-credito' %}">Solicitar nuevo crédito</a>
+    <br><br>
     <ul>
     {% for credito in creditos %}
-      <li>{{ credito.cliente }}, {{ credito.monto }}, {{ credito.cuotas }}, {{ credito.monto_cuota }}</li>
+      <li>{{ credito.cliente }} - Monto: ${{ credito.monto }}, Cantidad cuotas: {{ credito.cuotas }}, Monto Cuota: ${{ credito.monto_cuota }}</li>
     {% endfor %}
     </ul>
   </div>

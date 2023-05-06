@@ -4,6 +4,8 @@
 <section>
   <div>
     <h1>Listado de clientes</h1>
+    <a href="{% url 'crear-clientes' %}">Registrar nuevo cliente</a>
+    <br><br>
     <ul>
     {% for client in clientes %}
       <li>{{ client.apellido }}, {{ client.nombre }}</li>

@@ -4,9 +4,11 @@
 <section>
   <div>
     <h1>Tipos de creditos</h1>
+    <a href="{% url 'crear-tipo-credito' %}">Crear tipo de credito Nuevo</a>
+    <br><br>
     <ul>
     {% for credito in tipo_creditos %}
-      <li>{{ credito.nombre_credito }}, {{ credito.interes }}</li>
+      <li>{{ credito.nombre_credito }} - Tasa de interes: {{ credito.interes }}</li>
     {% endfor %}
     </ul>
   </div>

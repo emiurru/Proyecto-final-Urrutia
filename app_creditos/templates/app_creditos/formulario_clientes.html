@@ -1,0 +1,14 @@
+{% extends "app_creditos/base.html" %}
+
+{% block contenido %}
+{% if cliente_creado %}
+<p>Cliente registrado exitosamente!</p>
+{% else %}
+<form action="{% url 'crear-clientes' %}" method="post">
+  {% csrf_token %}
+  {{ formulario.as_p }}
+  {{ formulario.errors }}
+  <input type="submit" value="Enviar" />
+</form>
+{% endif %}
+{% endblock contenido %}
