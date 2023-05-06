@@ -1,6 +1,6 @@
 from django.db import models
 
-class Cliente(models.Model):
+class Clientes(models.Model):
     apellido = models.CharField(max_length=256)
     nombre = models.CharField(max_length=256)
     dni = models.CharField(max_length=32)
@@ -13,11 +13,11 @@ class Tipo_Credito(models.Model):
 class Creditos(models.Model):
     monto = models.IntegerField()
     cuotas = models.IntegerField()
-    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE)
-    monto_cuota = models.IntegerField(max_length=10)
+    cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
+    monto_cuota = models.IntegerField()
 
     def calcular_monto_cuota(self):
         interes_mensual = self.tipo_credito.interes / 12
-        monto_cuota = (interes_mensual * self.monto) // (1 - (1 + interes_mensual)**(-self.cuotas))
+        monto_cuota = (interes_mensual * self.cuotas + 1) * self.monto // self.cuotas
         self.save()
     

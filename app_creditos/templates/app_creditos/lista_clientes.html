@@ -1,0 +1,14 @@
+{% extends "app_creditos/base.html" %}
+
+{% block contenido %}
+<section>
+  <div>
+    <h1>Listado de clientes</h1>
+    <ul>
+    {% for client in clientes %}
+      <li>{{ client.apellido }}, {{ client.nombre }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock contenido %}

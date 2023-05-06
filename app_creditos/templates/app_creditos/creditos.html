@@ -1,0 +1,14 @@
+{% extends "app_creditos/base.html" %}
+
+{% block contenido %}
+<section>
+  <div>
+    <h1>Listado de créditos otorgados</h1>
+    <ul>
+    {% for credito in creditos %}
+      <li>{{ credito.cliente }}, {{ credito.monto }}, {{ credito.cuotas }}, {{ credito.monto_cuota }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock contenido %}

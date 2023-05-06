@@ -24,10 +24,10 @@
         <nav class="navbar navbar-light bg-light static-top">
             <div class="container">
                 <img width="130" height="140" alt="" sizes="(max-width: 78px) 10vw, 78px" src="{% static 'img/logo.png' %}" alt="Logo">
-                <a class="navbar-brand" href="https://www.longcredsa.com">Inicio</a>
-                <a class="navbar-brand" href="https://www.longcredsa.com">Clientes</a>
-                <a class="navbar-brand" href="https://www.longcredsa.com">Tipos de créditos</a>
-                <a class="navbar-brand" href="https://www.longcredsa.com">Créditos</a>
+                <a class="navbar-brand" href="{% url 'inicio' %}">Inicio</a>
+                <a class="navbar-brand" href="{% url 'lista-clientes' %}">Clientes</a>
+                <a class="navbar-brand" href="{% url 'lista-tipo-creditos' %}">Tipos de créditos</a>
+                <a class="navbar-brand" href="{% url 'lista-creditos' %}">Créditos</a>
                 <a class="btn btn-primary" href="#signup">Registro</a>
                 
             </div>

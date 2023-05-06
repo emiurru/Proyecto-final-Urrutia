@@ -1,0 +1,14 @@
+{% extends "app_creditos/base.html" %}
+
+{% block contenido %}
+<section>
+  <div>
+    <h1>Tipos de creditos</h1>
+    <ul>
+    {% for credito in tipo_creditos %}
+      <li>{{ credito.nombre_credito }}, {{ credito.interes }}</li>
+    {% endfor %}
+    </ul>
+  </div>
+</section>
+{% endblock contenido %}

@@ -1,3 +1,7 @@
 from django.contrib import admin
 
-# Register your models here.
+from .models import Clientes, Tipo_Credito, Creditos
+
+admin.site.register(Clientes)
+admin.site.register(Tipo_Credito)
+admin.site.register(Creditos)
