@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from app_creditos.views import listar_clientes, listar_tipo_creditos, listar_creditos, crear_clientes, crear_tipo_credito, crear_credito
+from app_creditos.views import listar_clientes, listar_tipo_creditos, listar_creditos, crear_clientes, crear_tipo_credito, crear_credito, buscar_clientes, buscar_tipo_creditos
 
 urlpatterns = [
     path("lista-clientes/", listar_clientes, name="lista-clientes"),
@@ -10,5 +10,7 @@ urlpatterns = [
     path('crear-clientes/', crear_clientes, name='crear-clientes'),
     path('crear-tipo-credito/', crear_tipo_credito, name='crear-tipo-credito'),
     path('crear-credito/', crear_credito, name='crear-credito'),
+    path('buscar-clientes/', buscar_clientes, name='buscar-clientes'),
+    path('buscar-tipo-creditos/', buscar_tipo_creditos, name='buscar-tipo-creditos'),
     
 ] 

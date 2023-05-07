@@ -10,7 +10,7 @@ class Clientes(models.Model):
         return f'{self.apellido}, {self.nombre}'
 
 class Tipo_Credito(models.Model):
-    nombre_credito = models.CharField(max_length=64)
+    nombre_credito = models.CharField(max_length=256)
     interes = models.FloatField()
 
     def __str__(self) -> str:

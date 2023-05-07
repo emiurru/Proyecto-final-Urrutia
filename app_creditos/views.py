@@ -121,3 +121,33 @@ def crear_credito(request):
         context={'formulario': formulario}
     )
     return http_response
+
+def buscar_clientes(request):
+    if request.method == "POST":
+        data = request.POST
+        busqueda = data["busqueda"]
+        clientes = Clientes.objects.filter(dni__contains=busqueda)
+        contexto = {
+            "clientes": clientes,
+        }
+        http_response = render(
+            request=request,
+            template_name='app_creditos/lista_clientes.html',
+            context=contexto,
+        )
+        return http_response
+    
+def buscar_tipo_creditos(request):
+    if request.method == "POST":
+        data = request.POST
+        busqueda = data["busqueda"]
+        tipo_credito = Tipo_Credito.objects.filter(nombre_credito__icontains=busqueda)
+        contexto = {
+            "tipo_credito": tipo_credito,
+        }
+        http_response = render(
+            request=request,
+            template_name='app_creditos/tipo_creditos.html',
+            context=contexto,
+        )
+        return http_response
