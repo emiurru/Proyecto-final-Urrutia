@@ -2,7 +2,7 @@
 
 {% block contenido %}
 <section>
-  <div>
+  <div class="text-center">
     <h1>Tipos de creditos</h1>
     <a href="{% url 'crear-tipo-credito' %}">Crear tipo de credito Nuevo</a>
     <br><br>
@@ -12,6 +12,9 @@
       <input type="submit" value="Buscar por nombre">
     </form>
     <br>
+    <style>
+      ul {list-style: none}
+      </style>
     <ul>
     {% for credito in tipo_creditos %}
       <li>{{ credito.nombre_credito }} - Tasa de interes: {{ credito.interes }}</li>

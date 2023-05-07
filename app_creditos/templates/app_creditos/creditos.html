@@ -2,7 +2,7 @@
 
 {% block contenido %}
 <section>
-  <div>
+  <div class="text-center">
     <h1>Listado de créditos otorgados</h1>
     <a href="{% url 'crear-credito' %}">Solicitar nuevo crédito</a>
     <br><br>
@@ -12,6 +12,9 @@
       <input type="submit" value="Buscar crédito por apellido Cliente">
     </form>
     <br>
+    <style>
+      ul {list-style: none}
+      </style>
     <ul>
     {% for credito in creditos %}
       <li>{{ credito.cliente }} - Monto: ${{ credito.monto }}, Cantidad cuotas: {{ credito.cuotas }}, Monto Cuota: ${{ credito.monto_cuota }}</li>

@@ -2,7 +2,7 @@
 
 {% block contenido %}
 <section>
-  <div>
+  <div class="text-center">
     <h1>Listado de clientes</h1>
     <a href="{% url 'crear-clientes' %}">Registrar nuevo cliente</a>
     <br><br>
@@ -12,6 +12,9 @@
       <input type="submit" value="Buscar por DNI">
     </form>
     <br>
+    <style>
+      ul {list-style: none}
+      </style>
     <ul>
     {% for client in clientes %}
       <li>{{ client.apellido }} {{ client.nombre }} - DNI: {{client.dni}}</li>
