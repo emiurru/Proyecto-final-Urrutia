@@ -7,7 +7,7 @@ class Clientes(models.Model):
     email = models.EmailField()
 
     def __str__(self) -> str:
-        return f'{self.apellido}, {self.nombre}'
+        return f'{self.apellido}  {self.nombre}'
 
 class Tipo_Credito(models.Model):
     nombre_credito = models.CharField(max_length=256)
