@@ -4,6 +4,7 @@
 {% if cliente_creado %}
 <p>Cliente registrado exitosamente!</p>
 {% else %}
+<h4>Completá estos campos y registrate:</h4>
 <form action="{% url 'crear-clientes' %}" method="post">
   {% csrf_token %}
   {{ formulario.as_p }}
