@@ -2,7 +2,7 @@ from django.contrib import admin
 from django.urls import path
 
 from app_creditos.views import listar_clientes, listar_tipo_creditos, listar_creditos, crear_clientes, crear_tipo_credito, crear_credito,\
-      buscar_clientes, buscar_tipo_creditos, buscar_creditos
+      buscar_clientes, buscar_tipo_creditos, buscar_creditos, cotizar_cheque, resultado_cotizacion
 
 urlpatterns = [
     path("lista-clientes/", listar_clientes, name="lista-clientes"),
@@ -14,5 +14,8 @@ urlpatterns = [
     path('buscar-clientes/', buscar_clientes, name='buscar-clientes'),
     path('buscar-tipo-creditos/', buscar_tipo_creditos, name='buscar-tipo-creditos'),
     path('buscar-creditos/', buscar_creditos, name='buscar-creditos'),
+    path('buscar-creditos/', buscar_creditos, name='buscar-creditos'),
+    path('formulario-cotizacion/', cotizar_cheque, name='cotizar-cheque'),
+    path('resultado-cotizacion/', resultado_cotizacion, name='resultado-cotizacion')
     
 ] 

@@ -2,6 +2,9 @@ from django.shortcuts import render, redirect
 from django.urls import reverse
 from app_creditos.models import Clientes, Tipo_Credito, Creditos
 from app_creditos.forms import ClientesFormulario, Tipo_Credito_Formulario, CreditoFormulario
+from .utils import calcular_descuento_cheque
+from datetime import datetime
+
 
 def html(request):
     contexto = {}
@@ -166,3 +169,19 @@ def buscar_creditos(request):
             context=contexto,
         )
         return http_response
+    
+def cotizar_cheque(request):
+    if request.method == 'POST':
+        monto = float(request.POST.get('monto'))
+        tna1 = 120
+        tna = tna1 / 100
+        fecha_deposito = datetime.strptime(request.POST.get('fecha_deposito'), '%Y-%m-%d').date()
+
+        valor_descontado = calcular_descuento_cheque(monto, tna, fecha_deposito)
+
+        return render(request, 'app_creditos/resultado_cotizacion.html', {'valor_descontado': valor_descontado, 'monto': int(monto), 'tna1': tna1, 'fecha_deposito': fecha_deposito})
+    else:
+        return render(request, 'app_creditos/formulario_cotizacion.html')
+    
+def resultado_cotizacion(request):
+    return render(request, 'app_creditos/resultado_cotizacion.html')
