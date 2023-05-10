@@ -1,0 +1,18 @@
+{% extends "app_creditos/base.html" %}
+
+{% block contenido %}
+
+<p>
+    <strong>ID Tipo de crédito:</strong> {{object.id}}
+  </p>
+<p>
+  <strong>Nombre crédito:</strong> {{object.nombre_credito}}
+</p>
+<p>
+  <strong>Tasa de interes (%):</strong> {{object.interes}}
+</p>
+
+<br>
+<a href="{% url 'lista_tipo_creditos' %}">Volver a Tipo de créditos</a>
+
+{% endblock contenido %}

@@ -1,43 +1,57 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from app_creditos.models import Clientes, Tipo_Credito, Creditos
-from app_creditos.forms import ClientesFormulario, Tipo_Credito_Formulario, CreditoFormulario
+from app_creditos.forms import CreditoFormulario
 from .utils import calcular_descuento_cheque
 from datetime import datetime
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
+# VISTAS CLIENTES
+class ClientesListView(ListView):
+    model = Clientes
+    template_name = 'app_creditos/lista_clientes.html'
 
-def html(request):
-    contexto = {}
-    http_responde = render(
-        request=request,
-        template_name='app_creditos/base.html',
-        context=contexto
-    )
+class ClientesCreateView(CreateView):
+    model = Clientes
+    fields = ('apellido', 'nombre', 'dni', 'email')
+    success_url = reverse_lazy('lista_clientes')
 
-def listar_clientes(request):
-    contexto = {
-        'clientes': Clientes.objects.all(),
-    }
-    
-    http_response = render(
-        request=request,
-        template_name='app_creditos/lista_clientes.html',
-        context=contexto,
-    )
-    return http_response
+class ClientesDetailView(DetailView):
+    model = Clientes
+    success_url = reverse_lazy('lista_clientes')
 
-def listar_tipo_creditos(request):
-    contexto = {
-        'tipo_creditos': Tipo_Credito.objects.all(),
-    }
-    
-    http_response = render(
-        request=request,
-        template_name='app_creditos/tipo_creditos.html',
-        context=contexto,
-    )
-    return http_response
+class ClientesUpdateView(UpdateView):
+    model = Clientes
+    fields = ('apellido', 'nombre', 'dni', 'email')
+    success_url = reverse_lazy('lista_clientes')
+
+class ClientesDeleteView(DeleteView):
+    model = Clientes
+    success_url = reverse_lazy('lista_clientes')
+
+# VISTAS TIPOS DE CREDITOS
+class Tipo_creditoListView(ListView):
+    model = Tipo_Credito
+    template_name = 'app_creditos/lista_tipo_creditos.html'
+
+class Tipo_creditoCreateView(CreateView):
+    model = Tipo_Credito
+    fields = ('nombre_credito', 'interes')
+    success_url = reverse_lazy('lista_tipo_creditos')
+
+class Tipo_creditoDetailView(DetailView):
+    model = Tipo_Credito
+    success_url = reverse_lazy('lista_tipo_creditos')
+
+class Tipo_creditoUpdateView(UpdateView):
+    model = Tipo_Credito
+    fields = ('nombre_credito', 'interes')
+    success_url = reverse_lazy('lista_tipo_creditos')
+
+class Tipo_creditoDeleteView(DeleteView):
+    model = Tipo_Credito
+    success_url = reverse_lazy('lista_tipo_creditos')
+
 
 def listar_creditos(request):
     contexto = {
@@ -48,54 +62,6 @@ def listar_creditos(request):
         request=request,
         template_name='app_creditos/creditos.html',
         context=contexto,
-    )
-    return http_response
-
-def crear_clientes(request):
-    if request.method == "POST":
-        formulario = ClientesFormulario(request.POST)
-
-        if formulario.is_valid():
-            data = formulario.cleaned_data  # es un diccionario
-            apellido = data["apellido"]
-            nombre = data["nombre"]
-            dni = data['dni']
-            email = data['email']
-            cliente = Clientes(apellido=apellido, nombre=nombre, dni=dni, email=email)  # lo crean solo en RAM
-            cliente.save()
-            cliente_creado = True
-
-            contexto = {'creado_exitosamente': True}
-            return render(request, 'app_creditos/formulario_clientes.html', {'cliente_creado': cliente_creado})
-    else:
-        formulario = ClientesFormulario()
-    http_response = render(
-        request=request,
-        template_name='app_creditos/formulario_clientes.html',
-        context={'formulario': formulario}
-    )
-    return http_response
-
-def crear_tipo_credito(request):
-    if request.method == "POST":
-        formulario = Tipo_Credito_Formulario(request.POST)
-
-        if formulario.is_valid():
-            data = formulario.cleaned_data  # es un diccionario
-            nombre_credito = data["nombre_credito"]
-            interes = data["interes"]
-            tipo_credito = Tipo_Credito(nombre_credito=nombre_credito, interes=interes)
-            tipo_credito.save()
-            tipo_credito_creado = True
-
-            contexto = {'creado_exitosamente': True}
-            return render(request, 'app_creditos/formulario_tipo_credito.html', {'tipo_credito_creado': tipo_credito_creado})
-    else:
-        formulario = Tipo_Credito_Formulario()
-    http_response = render(
-        request=request,
-        template_name='app_creditos/formulario_tipo_credito.html',
-        context={'formulario': formulario}
     )
     return http_response
 
@@ -187,34 +153,3 @@ def cotizar_cheque(request):
 def resultado_cotizacion(request):
     return render(request, 'app_creditos/resultado_cotizacion.html')
 
-def eliminar_tipo_credito(request, id):
-   tipo_credito = Tipo_Credito.objects.get(id=id)
-   if request.method == "POST":
-       tipo_credito.delete()
-       url_exitosa = reverse('lista-tipo-creditos')
-       return redirect(url_exitosa)
-
-def editar_tipo_credito(request, id):
-    tipo_credito = Tipo_Credito.objects.get(id=id)
-    if request.method == "POST":
-        formulario = Tipo_Credito_Formulario(request.POST)
-
-        if formulario.is_valid():
-            data = formulario.cleaned_data
-            tipo_credito.nombre_credito = data['nombre_credito']
-            tipo_credito.interes = data['interes']
-            tipo_credito.save()
-
-            url_exitosa = reverse('lista-tipo-creditos')
-            return redirect(url_exitosa)
-    else:  # GET
-        inicial = {
-            'nombre_credito': tipo_credito.nombre_credito,
-            'interes': tipo_credito.interes,
-        }
-        formulario = Tipo_Credito_Formulario(initial=inicial)
-    return render(
-        request=request,
-        template_name='app_creditos/formulario_tipo_credito.html',
-        context={'formulario': formulario},
-    )

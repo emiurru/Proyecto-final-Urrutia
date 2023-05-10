@@ -4,7 +4,7 @@
 <section>
   <div class="text-center">
     <h1>Tipos de creditos</h1>
-    <a href="{% url 'crear-tipo-credito' %}">Crear tipo de credito Nuevo</a>
+    <a href="{% url 'crear_tipo_creditos' %}">Crear tipo de credito Nuevo</a>
     <br><br>
     <form action="{% url 'buscar-tipo-creditos' %}" method="post">
       {% csrf_token %}
@@ -18,22 +18,27 @@
           <th>ID</th>
           <th>Tipo de Crédito</th>
           <th>Tasa de Interes %</th>
-          <th>Editar</th>
-          <th>Eliminar tipo de crédito</th>
+          <th>Acciones</th>
         </tr>
-        {% for tipo in tipo_creditos %}
+        {% for tipo in object_list %}
         <tr>
           <td>{{ tipo.id }}</td>
           <td>{{ tipo.nombre_credito }}</td>
           <td>{{ tipo.interes }}</td>
           <td>
-            <a href="{% url 'editar-tipo-credito' tipo.id %}">Editar</a>
+            <a href="{% url 'ver_tipo_creditos' tipo.id %}">
+              <i class="bi bi-eye"></i>
+            </a>
           </td>
           <td>
-            <form action="{% url 'eliminar-tipo-credito' tipo.id %}" method="post">
-              {% csrf_token %}
-              <input type="submit" value="Borrar"/>
-            </form
+            <a href="{% url 'editar_tipo_creditos' tipo.id %}">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </td>
+          <td>
+            <a href="{% url 'eliminar_tipo_creditos' tipo.id %}">
+              <i class="bi bi-trash"></i>
+            </a>
           </td>
         </tr>
         {% endfor %}
