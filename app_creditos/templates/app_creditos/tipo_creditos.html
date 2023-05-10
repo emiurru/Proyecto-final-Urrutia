@@ -12,14 +12,33 @@
       <input type="submit" value="Buscar por nombre">
     </form>
     <br>
-    <style>
-      ul {list-style: none}
-      </style>
-    <ul>
-    {% for credito in tipo_creditos %}
-      <li>{{ credito.nombre_credito }} - Tasa de interes: {{ credito.interes }}</li>
-    {% endfor %}
-    </ul>
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>ID</th>
+          <th>Tipo de Crédito</th>
+          <th>Tasa de Interes %</th>
+          <th>Editar</th>
+          <th>Eliminar tipo de crédito</th>
+        </tr>
+        {% for tipo in tipo_creditos %}
+        <tr>
+          <td>{{ tipo.id }}</td>
+          <td>{{ tipo.nombre_credito }}</td>
+          <td>{{ tipo.interes }}</td>
+          <td>
+            <a href="{% url 'editar-tipo-credito' tipo.id %}">Editar</a>
+          </td>
+          <td>
+            <form action="{% url 'eliminar-tipo-credito' tipo.id %}" method="post">
+              {% csrf_token %}
+              <input type="submit" value="Borrar"/>
+            </form
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </section>
 {% endblock contenido %}

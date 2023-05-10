@@ -1,9 +1,10 @@
 from django.shortcuts import render, redirect
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
 from app_creditos.models import Clientes, Tipo_Credito, Creditos
 from app_creditos.forms import ClientesFormulario, Tipo_Credito_Formulario, CreditoFormulario
 from .utils import calcular_descuento_cheque
 from datetime import datetime
+from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 
 
 def html(request):
@@ -185,3 +186,35 @@ def cotizar_cheque(request):
     
 def resultado_cotizacion(request):
     return render(request, 'app_creditos/resultado_cotizacion.html')
+
+def eliminar_tipo_credito(request, id):
+   tipo_credito = Tipo_Credito.objects.get(id=id)
+   if request.method == "POST":
+       tipo_credito.delete()
+       url_exitosa = reverse('lista-tipo-creditos')
+       return redirect(url_exitosa)
+
+def editar_tipo_credito(request, id):
+    tipo_credito = Tipo_Credito.objects.get(id=id)
+    if request.method == "POST":
+        formulario = Tipo_Credito_Formulario(request.POST)
+
+        if formulario.is_valid():
+            data = formulario.cleaned_data
+            tipo_credito.nombre_credito = data['nombre_credito']
+            tipo_credito.interes = data['interes']
+            tipo_credito.save()
+
+            url_exitosa = reverse('lista-tipo-creditos')
+            return redirect(url_exitosa)
+    else:  # GET
+        inicial = {
+            'nombre_credito': tipo_credito.nombre_credito,
+            'interes': tipo_credito.interes,
+        }
+        formulario = Tipo_Credito_Formulario(initial=inicial)
+    return render(
+        request=request,
+        template_name='app_creditos/formulario_tipo_credito.html',
+        context={'formulario': formulario},
+    )

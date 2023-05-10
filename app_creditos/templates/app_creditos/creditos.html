@@ -12,14 +12,24 @@
       <input type="submit" value="Buscar crédito por apellido Cliente">
     </form>
     <br>
-    <style>
-      ul {list-style: none}
-      </style>
-    <ul>
-    {% for credito in creditos %}
-      <li>{{ credito.cliente }} - Monto: ${{ credito.monto }}, Cantidad cuotas: {{ credito.cuotas }}, Monto Cuota: ${{ credito.monto_cuota }}</li>
-    {% endfor %}
-    </ul>
+    <table class="table">
+      <tbody>
+        <tr>
+          <th>Cliente</th>
+          <th>Monto otorgado</th>
+          <th>Nro cuotas</th>
+          <th>Importe cuota</th>
+        </tr>
+        {% for credito in creditos %}
+        <tr>
+          <td>{{ credito.cliente }}</td>
+          <td>{{ credito.monto }}</td>
+          <td>{{ credito.cuotas }}</td>
+          <td>{{ credito.monto_cuota }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
   </div>
 </section>
 {% endblock contenido %}
