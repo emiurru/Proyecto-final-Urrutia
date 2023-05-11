@@ -10,3 +10,4 @@ def calcular_descuento_cheque(monto, tna, fecha_deposito):
     valor_descontado = int(monto - (tna / 360 * dias) * monto)
 
     return valor_descontado
+

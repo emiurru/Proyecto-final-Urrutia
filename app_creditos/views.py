@@ -4,6 +4,7 @@ from app_creditos.models import Clientes, Tipo_Credito, Creditos
 from .utils import calcular_descuento_cheque
 from datetime import datetime
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
+from decimal import Decimal
 
 # VISTAS CLIENTES
 class ClientesListView(ListView):
@@ -58,7 +59,7 @@ class CreditosListView(ListView):
 
 class CreditosCreateView(CreateView):
     model = Creditos
-    fields = ('monto', 'cuotas', 'cliente', 'tipo_credito', 'monto_cuota')
+    fields = ('monto', 'cuotas', 'cliente', 'tipo_credito')
     success_url = reverse_lazy('lista_creditos')
 
 class CreditosDetailView(DetailView):
