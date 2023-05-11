@@ -4,9 +4,9 @@
 <section>
   <div class="text-center">
     <h1>Listado de créditos otorgados</h1>
-    <a href="{% url 'crear-credito' %}">Solicitar nuevo crédito</a>
+    <a href="{% url 'crear_creditos' %}">Solicitar nuevo crédito</a>
     <br><br>
-    <form action="{% url 'buscar-creditos' %}" method="post">
+    <form action="{% url 'buscar_creditos' %}" method="post">
       {% csrf_token %}
       <input type="text" name="busqueda">
       <input type="submit" value="Buscar crédito por apellido Cliente">
@@ -15,17 +15,33 @@
     <table class="table">
       <tbody>
         <tr>
+          <th>ID credito</th>
           <th>Cliente</th>
+          <th>Tipo de Crédito</th>
           <th>Monto otorgado</th>
           <th>Nro cuotas</th>
           <th>Importe cuota</th>
+          <th>Acciones</th>
         </tr>
-        {% for credito in creditos %}
+        {% for credito in object_list %}
         <tr>
+          <td>{{ credito.id }}</td>
           <td>{{ credito.cliente }}</td>
+          <td>{{ credito.tipo_credito }}</td>
           <td>{{ credito.monto }}</td>
           <td>{{ credito.cuotas }}</td>
           <td>{{ credito.monto_cuota }}</td>
+          <td>
+            <a href="{% url 'ver_creditos' credito.id %}">Ver</a>
+          </td>
+          <td>
+            <a href="{% url 'editar_creditos' credito.id %}">Editar</a>
+          </td>
+          <td>
+            <a href="{% url 'eliminar_creditos' credito.id %}">
+              <i class="bi bi-trash"></i>
+            </a>
+          </td>
         </tr>
         {% endfor %}
       </tbody>

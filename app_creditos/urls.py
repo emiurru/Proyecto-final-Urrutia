@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import path
 
-from app_creditos.views import listar_creditos, crear_credito,\
-      buscar_clientes, buscar_tipo_creditos, buscar_creditos, cotizar_cheque, resultado_cotizacion,\
+from app_creditos.views import buscar_clientes, buscar_tipo_creditos, buscar_creditos, cotizar_cheque, resultado_cotizacion,\
       ClientesListView, ClientesCreateView, ClientesDetailView, ClientesUpdateView, ClientesDeleteView, Tipo_creditoCreateView,\
-      Tipo_creditoListView, Tipo_creditoUpdateView, Tipo_creditoDeleteView, Tipo_creditoDetailView
+      Tipo_creditoListView, Tipo_creditoUpdateView, Tipo_creditoDeleteView, Tipo_creditoDetailView, CreditosListView,\
+      CreditosDeleteView, CreditosCreateView, CreditosDetailView, CreditosUpdateView
 
 urlpatterns = [
     #URL Clientes
@@ -24,9 +24,13 @@ urlpatterns = [
     path('buscar-tipo-creditos/', buscar_tipo_creditos, name='buscar-tipo-creditos'),
    
     #URLs creditos
-    path('creditos/', listar_creditos, name='lista-creditos'),
-    path('crear-credito/', crear_credito, name='crear-credito'),  
-    path('buscar-creditos/', buscar_creditos, name='buscar-creditos'),
+    path('creditos/', CreditosListView.as_view(), name='lista_creditos'),
+    path('crear-creditos/', CreditosCreateView.as_view(), name='crear_creditos'),
+    path('creditos/<int:pk>/', CreditosDetailView.as_view(), name="ver_creditos"),
+    path('editar-creditos/<int:pk>/', CreditosUpdateView.as_view(), name="editar_creditos"),
+    path('eliminar-creditos/<int:pk>/', CreditosDeleteView.as_view(), name="eliminar_creditos"),
+    path('buscar-creditos/', buscar_creditos, name='buscar_creditos'),
+
     #URLs cotizacion cheques
     path('formulario-cotizacion/', cotizar_cheque, name='cotizar-cheque'),
     path('resultado-cotizacion/', resultado_cotizacion, name='resultado-cotizacion'),

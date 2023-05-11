@@ -1,0 +1,30 @@
+{% extends "app_creditos/base.html" %}
+
+{% block contenido %}
+
+<p>
+  <strong>ID credito:</strong> {{object.id}}
+</p>
+<p>
+  <strong>Cliente:</strong> {{object.cliente}}
+</p>
+<p>
+  <strong>Tipo de crédito:</strong> {{object.tipo_credito}}
+</p> 
+<p>
+  <strong>Monto:</strong> {{object.monto}}
+</p>
+<p>
+  <strong>Nro de Cuotas:</strong> {{object.cuotas}}
+</p>
+<p>
+  <strong>Importe Cuotas:</strong> {{object.monto_cuotas}}
+</p>
+<p>
+  <strong>Email:</strong> {{object.email}}
+</p>
+
+<br>
+<a href="{% url 'lista_creditos' %}">Volver a Créditos</a>
+
+{% endblock contenido %}
