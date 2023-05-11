@@ -1,4 +1,5 @@
 from django.db import models
+from datetime import date
 
 class Clientes(models.Model):
     apellido = models.CharField(max_length=256)
@@ -20,9 +21,10 @@ class Creditos(models.Model):
     monto = models.IntegerField()
     cuotas = models.IntegerField()
     cliente = models.ForeignKey(Clientes, on_delete=models.CASCADE)
-    #monto_cuota = models.IntegerField()
     monto_cuota = models.IntegerField(null=True, blank=True)
     tipo_credito = models.ForeignKey(Tipo_Credito, on_delete=models.CASCADE)
+    fecha = models.DateField(null=True, blank=True)
+    fecha_otorgamiento = models.DateField(auto_now_add=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.id} - {self.cliente} - Monto: {self.monto} - Cuotas: {self.cuotas}'
@@ -35,5 +37,9 @@ class Creditos(models.Model):
         monto_cuota = (monto * ( 1 + (tasa_interes / 12 * cuotas))) / cuotas
         self.monto_cuota = monto_cuota
         super().save(*args, **kwargs)
+        return monto_cuota
     
-   
+    def save(self, *args, **kwargs):
+        fecha = date.today()
+        self.fecha = fecha
+        super().save(*args, **kwargs)

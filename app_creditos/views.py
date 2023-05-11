@@ -2,9 +2,11 @@ from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
 from app_creditos.models import Clientes, Tipo_Credito, Creditos
 from .utils import calcular_descuento_cheque
-from datetime import datetime
+from datetime import datetime, timedelta
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from decimal import Decimal
+from django.utils import timezone
+
 
 # VISTAS CLIENTES
 class ClientesListView(ListView):
@@ -65,6 +67,13 @@ class CreditosCreateView(CreateView):
 class CreditosDetailView(DetailView):
     model = Creditos
     success_url = reverse_lazy('lista_creditos')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        credito = context['object']
+        context['monto_cuota'] = credito.monto_cuota
+           
+        return context
 
 class CreditosUpdateView(UpdateView):
     model = Creditos

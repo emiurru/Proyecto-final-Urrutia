@@ -16,6 +16,7 @@
       <tbody>
         <tr>
           <th>ID credito</th>
+          <th>Fecha otorgamiento</th>
           <th>Cliente</th>
           <th>Tipo de Crédito</th>
           <th>Monto otorgado</th>
@@ -26,11 +27,12 @@
         {% for credito in object_list %}
         <tr>
           <td>{{ credito.id }}</td>
+          <td>{{ credito.fecha }}</td>
           <td>{{ credito.cliente }}</td>
-          <td>{{ credito.tipo_credito }}</td>
-          <td>{{ credito.monto }}</td>
+          <td>{{ credito.tipo_credito.nombre_credito }}</td>
+          <td>${{ credito.monto }}</td>
           <td>{{ credito.cuotas }}</td>
-          <td>{{ credito.monto_cuota }}</td>
+          <td>${{ credito.monto_cuota }}</td>
           <td>
             <a href="{% url 'ver_creditos' credito.id %}">Ver</a>
           </td>
