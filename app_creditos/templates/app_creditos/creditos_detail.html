@@ -23,6 +23,22 @@
 <p>
   <strong>Email:</strong> {{object.email}}
 </p>
+<table class="table">
+  <tbody>
+    <tr>
+      <th>Nro cuota</th>
+      <th>Fecha Vencimiento</th>
+      <th>Importe cuota</th>
+    </tr>
+    {% for cuota in object.cuotas.all %}
+    <tr>
+      <td>{{ cuota.nro_cuota }}</td>
+      <td>{{ cuota.fecha_vencimiento }}</td>
+      <td>${{ cuota.importe_cuota }}</td>
+    </tr>
+    {% endfor %}
+  </tbody>
+</table>
 <br>
 <a href="{% url 'lista_creditos' %}">Volver a Créditos</a>
 

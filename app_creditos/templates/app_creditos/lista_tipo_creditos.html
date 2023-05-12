@@ -18,13 +18,16 @@
           <th>ID</th>
           <th>Tipo de Crédito</th>
           <th>Tasa de Interes %</th>
+          {% if user.is_authenticated %}
           <th>Acciones</th>
+          {% endif %}
         </tr>
         {% for tipo in object_list %}
         <tr>
           <td>{{ tipo.id }}</td>
           <td>{{ tipo.nombre_credito }}</td>
           <td>{{ tipo.interes }}</td>
+          {% if user.is_authenticated %}
           <td>
             <a href="{% url 'ver_tipo_creditos' tipo.id %}">
               <i class="bi bi-eye"></i>
@@ -40,6 +43,7 @@
               <i class="bi bi-trash"></i>
             </a>
           </td>
+          {% endif %}
         </tr>
         {% endfor %}
       </tbody>

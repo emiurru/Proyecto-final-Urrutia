@@ -5,5 +5,6 @@ from .views import inicio
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', inicio, name='inicio'),
-    path('app-creditos/', include('app_creditos.urls'))
+    path('app-creditos/', include('app_creditos.urls')),
+    path('perfiles/', include('perfiles.urls'))
 ]

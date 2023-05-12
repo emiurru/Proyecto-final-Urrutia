@@ -33,6 +33,7 @@
           <td>${{ credito.monto }}</td>
           <td>{{ credito.cuotas }}</td>
           <td>${{ credito.monto_cuota }}</td>
+          {% if user.is_authenticated %}
           <td>
             <a href="{% url 'ver_creditos' credito.id %}">Ver</a>
           </td>
@@ -44,6 +45,7 @@
               <i class="bi bi-trash"></i>
             </a>
           </td>
+          {% endif %}
         </tr>
         {% endfor %}
       </tbody>

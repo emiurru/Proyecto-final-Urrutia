@@ -1,11 +1,14 @@
 from django.db import models
-from datetime import date
+from datetime import date, datetime
+from django.contrib.auth.models import User
+from .utils import calcular_fecha_vencimiento
 
 class Clientes(models.Model):
     apellido = models.CharField(max_length=256)
     nombre = models.CharField(max_length=256)
     dni = models.CharField(max_length=32)
     email = models.EmailField()
+    creador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return f'{self.apellido}  {self.nombre}'
@@ -13,6 +16,7 @@ class Clientes(models.Model):
 class Tipo_Credito(models.Model):
     nombre_credito = models.CharField(max_length=256)
     interes = models.FloatField()
+    creador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
     def __str__(self) -> str:
         return f'{self.nombre_credito}. Tasa de interes = {self.interes*100}%'
@@ -25,6 +29,8 @@ class Creditos(models.Model):
     tipo_credito = models.ForeignKey(Tipo_Credito, on_delete=models.CASCADE)
     fecha = models.DateField(null=True, blank=True)
     fecha_otorgamiento = models.DateField(auto_now_add=True, null=True)
+    creador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    
 
     def __str__(self) -> str:
         return f'{self.id} - {self.cliente} - Monto: {self.monto} - Cuotas: {self.cuotas}'
@@ -43,3 +49,6 @@ class Creditos(models.Model):
         fecha = date.today()
         self.fecha = fecha
         super().save(*args, **kwargs)
+
+   
+

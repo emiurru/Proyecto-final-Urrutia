@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from app_creditos.models import Clientes, Tipo_Credito, Creditos
 from .utils import calcular_descuento_cheque
@@ -6,28 +6,31 @@ from datetime import datetime, timedelta
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
 from decimal import Decimal
 from django.utils import timezone
+from django.contrib.auth.decorators import login_required
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
 # VISTAS CLIENTES
-class ClientesListView(ListView):
+
+class ClientesListView(LoginRequiredMixin, ListView):
     model = Clientes
     template_name = 'app_creditos/lista_clientes.html'
 
-class ClientesCreateView(CreateView):
+class ClientesCreateView(LoginRequiredMixin, CreateView):
     model = Clientes
     fields = ('apellido', 'nombre', 'dni', 'email')
     success_url = reverse_lazy('lista_clientes')
 
-class ClientesDetailView(DetailView):
+class ClientesDetailView(LoginRequiredMixin, DetailView):
     model = Clientes
     success_url = reverse_lazy('lista_clientes')
 
-class ClientesUpdateView(UpdateView):
+class ClientesUpdateView(LoginRequiredMixin, UpdateView):
     model = Clientes
     fields = ('apellido', 'nombre', 'dni', 'email')
     success_url = reverse_lazy('lista_clientes')
 
-class ClientesDeleteView(DeleteView):
+class ClientesDeleteView(LoginRequiredMixin, DeleteView):
     model = Clientes
     success_url = reverse_lazy('lista_clientes')
 
@@ -36,7 +39,7 @@ class Tipo_creditoListView(ListView):
     model = Tipo_Credito
     template_name = 'app_creditos/lista_tipo_creditos.html'
 
-class Tipo_creditoCreateView(CreateView):
+class Tipo_creditoCreateView(LoginRequiredMixin, CreateView):
     model = Tipo_Credito
     fields = ('nombre_credito', 'interes')
     success_url = reverse_lazy('lista_tipo_creditos')
@@ -45,48 +48,49 @@ class Tipo_creditoDetailView(DetailView):
     model = Tipo_Credito
     success_url = reverse_lazy('lista_tipo_creditos')
 
-class Tipo_creditoUpdateView(UpdateView):
+class Tipo_creditoUpdateView(LoginRequiredMixin, UpdateView):
     model = Tipo_Credito
     fields = ('nombre_credito', 'interes')
     success_url = reverse_lazy('lista_tipo_creditos')
 
-class Tipo_creditoDeleteView(DeleteView):
+class Tipo_creditoDeleteView(LoginRequiredMixin, DeleteView):
     model = Tipo_Credito
     success_url = reverse_lazy('lista_tipo_creditos')
 
 #VISTAS DE CREDITOS
-class CreditosListView(ListView):
+
+class CreditosListView(LoginRequiredMixin, ListView):
     model = Creditos
     template_name = 'app_creditos/lista_creditos.html'
 
-class CreditosCreateView(CreateView):
+class CreditosCreateView(LoginRequiredMixin, CreateView):
     model = Creditos
     fields = ('monto', 'cuotas', 'cliente', 'tipo_credito')
     success_url = reverse_lazy('lista_creditos')
 
-class CreditosDetailView(DetailView):
+class CreditosDetailView(LoginRequiredMixin, DetailView):
     model = Creditos
     success_url = reverse_lazy('lista_creditos')
-
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         credito = context['object']
         context['monto_cuota'] = credito.monto_cuota
-           
+        
         return context
-
-class CreditosUpdateView(UpdateView):
+    
+class CreditosUpdateView(LoginRequiredMixin, UpdateView):
     model = Creditos
     fields = ('monto', 'cuotas', 'tipo_credito')
     success_url = reverse_lazy('lista_creditos')
 
-class CreditosDeleteView(DeleteView):
+class CreditosDeleteView(LoginRequiredMixin, DeleteView):
     model = Creditos
     success_url = reverse_lazy('lista_creditos')
 
 
 
-
+@login_required
 def buscar_clientes(request):
     if request.method == "POST":
         data = request.POST
@@ -117,6 +121,7 @@ def buscar_tipo_creditos(request):
         )
         return http_response
 
+@login_required
 def buscar_creditos(request):
     if request.method == "POST":
         data = request.POST
