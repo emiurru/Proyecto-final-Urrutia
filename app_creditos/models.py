@@ -1,5 +1,5 @@
 from django.db import models
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from django.contrib.auth.models import User
 from .utils import calcular_fecha_vencimiento
 
@@ -42,13 +42,11 @@ class Creditos(models.Model):
         cuotas = self.cuotas
         monto_cuota = (monto * ( 1 + (tasa_interes / 12 * cuotas))) / cuotas
         self.monto_cuota = monto_cuota
+        fecha_otorgamiento = date.today()
         super().save(*args, **kwargs)
-        return monto_cuota
+        
+               
+        return monto_cuota, fecha_otorgamiento
     
-    def save(self, *args, **kwargs):
-        fecha = date.today()
-        self.fecha = fecha
-        super().save(*args, **kwargs)
-
-   
-
+  
+ 

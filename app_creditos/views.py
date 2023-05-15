@@ -1,3 +1,4 @@
+from typing import Any, Dict
 from django.shortcuts import render, redirect, get_object_or_404
 from django.urls import reverse, reverse_lazy
 from app_creditos.models import Clientes, Tipo_Credito, Creditos
@@ -68,6 +69,7 @@ class CreditosCreateView(LoginRequiredMixin, CreateView):
     fields = ('monto', 'cuotas', 'cliente', 'tipo_credito')
     success_url = reverse_lazy('lista_creditos')
 
+  
 class CreditosDetailView(LoginRequiredMixin, DetailView):
     model = Creditos
     success_url = reverse_lazy('lista_creditos')
@@ -75,8 +77,23 @@ class CreditosDetailView(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         credito = context['object']
-        context['monto_cuota'] = credito.monto_cuota
+        #context['monto_cuota'] = credito.monto_cuota
         
+        numero_cuotas = credito.cuotas
+        fecha_otorgamiento = credito.fecha_otorgamiento
+
+        lista_cuotas = []
+        for nro_cuota in range(1, numero_cuotas + 1):
+            fecha_vencimiento = fecha_otorgamiento.replace(day=15) + timedelta(days=31 * nro_cuota)
+            importe_cuota = credito.monto_cuota
+            cuota = {
+                'nro_cuota': nro_cuota,
+                'fecha_vencimiento': fecha_vencimiento,
+                'importe_cuota': importe_cuota,
+            }
+            lista_cuotas.append(cuota)
+
+        context['cuotas'] = lista_cuotas
         return context
     
 class CreditosUpdateView(LoginRequiredMixin, UpdateView):
