@@ -9,7 +9,7 @@ class Clientes(models.Model):
     dni = models.CharField(max_length=32, unique=True)
     email = models.EmailField()
     creador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
-    user = models.CharField(max_length=256, null=True, blank=True)
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name='cliente', null=True)
 
     def __str__(self) -> str:
         return f'{self.apellido}  {self.nombre}'
