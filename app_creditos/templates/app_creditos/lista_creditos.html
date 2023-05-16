@@ -24,29 +24,31 @@
           <th>Importe cuota</th>
           <th>Acciones</th>
         </tr>
-        {% for credito in object_list %}
-        <tr>
-          <td>{{ credito.id }}</td>
-          <td>{{ credito.fecha_otorgamiento }}</td>
-          <td>{{ credito.cliente }}</td>
-          <td>{{ credito.tipo_credito.nombre_credito }}</td>
-          <td>${{ credito.monto }}</td>
-          <td>{{ credito.cuotas }}</td>
-          <td>${{ credito.monto_cuota }}</td>
-          <td>
-            <a href="{% url 'ver_creditos' credito.id %}">Ver</a>
-          </td>
-          <td>
-            <a href="{% url 'editar_creditos' credito.id %}">Editar</a>
-          </td>
-          <td>
-            <a href="{% url 'eliminar_creditos' credito.id %}">
-              <i class="bi bi-trash"></i>
-            </a>
-          </td>
-          
-        </tr>
-        {% endfor %}
+        {% if credito.creador == request.user %}
+          {% for credito in object_list %}
+          <tr>
+            <td>{{ credito.id }}</td>
+            <td>{{ credito.fecha_otorgamiento }}</td>
+            <td>{{ credito.cliente }}</td>
+            <td>{{ credito.tipo_credito.nombre_credito }}</td>
+            <td>${{ credito.monto }}</td>
+            <td>{{ credito.cuotas }}</td>
+            <td>${{ credito.monto_cuota }}</td>
+            <td>
+              <a href="{% url 'ver_creditos' credito.id %}">Ver</a>
+            </td>
+            <td>
+              <a href="{% url 'editar_creditos' credito.id %}">Editar</a>
+            </td>
+            <td>
+              <a href="{% url 'eliminar_creditos' credito.id %}">
+                <i class="bi bi-trash"></i>
+              </a>
+            </td>
+            
+          </tr>
+          {% endfor %}
+        {% endif %}
       </tbody>
     </table>
   </div>

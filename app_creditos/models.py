@@ -6,9 +6,10 @@ from .utils import calcular_fecha_vencimiento
 class Clientes(models.Model):
     apellido = models.CharField(max_length=256)
     nombre = models.CharField(max_length=256)
-    dni = models.CharField(max_length=32)
+    dni = models.CharField(max_length=32, unique=True)
     email = models.EmailField()
     creador = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    user = models.CharField(max_length=256, null=True, blank=True)
 
     def __str__(self) -> str:
         return f'{self.apellido}  {self.nombre}'

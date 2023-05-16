@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path
 
-from perfiles.views import registro, login_view, CustomLogoutView
+from perfiles.views import CustomLogoutView, login_view, registro
 
 
 urlpatterns = [

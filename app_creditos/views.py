@@ -84,7 +84,7 @@ class CreditosDetailView(LoginRequiredMixin, DetailView):
 
         lista_cuotas = []
         for nro_cuota in range(1, numero_cuotas + 1):
-            fecha_vencimiento = fecha_otorgamiento.replace(day=15) + timedelta(days=31 * nro_cuota)
+            fecha_vencimiento = fecha_otorgamiento + timedelta(days=30 * nro_cuota)
             importe_cuota = credito.monto_cuota
             cuota = {
                 'nro_cuota': nro_cuota,
@@ -95,6 +95,7 @@ class CreditosDetailView(LoginRequiredMixin, DetailView):
 
         context['cuotas'] = lista_cuotas
         return context
+    
     
 class CreditosUpdateView(LoginRequiredMixin, UpdateView):
     model = Creditos

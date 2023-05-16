@@ -8,6 +8,7 @@ from django.contrib.auth import login, authenticate
 from perfiles.forms import UserRegisterForm
 
 
+
 def registro(request):
     if request.method == "POST":
         formulario = UserRegisterForm(request.POST)
@@ -23,6 +24,28 @@ def registro(request):
         template_name='perfiles/registro.html',
         context={'form': formulario},
     )
+
+# class RegisterView(View):
+#     def get(self, request):
+#         form = UserRegisterForm()
+#         return render(request, 'perfiles/registro.html', {'form': form})
+
+#     def post(self, request):
+#         form = UserRegisterForm(request.POST)
+#         if form.is_valid():
+#             user = form.save()
+
+#             nombre = form.cleaned_data.get('first_name')
+#             apellido = form.cleaned_data.get('last_name')
+#             dni = form.cleaned_data.get('dni')
+#             email = form.cleaned_data.get('email')
+#             cliente = Clientes(user=user, nombre=nombre, apellido=apellido, dni=dni, email=email)
+#             cliente.save()
+
+            
+#             login(request, user)
+#             return redirect('inicio')
+#         return render(request, 'inicio', {'form': form})
 
 
 def login_view(request):
@@ -49,7 +72,6 @@ def login_view(request):
         template_name='perfiles/login.html',
         context={'form': form},
     )
-
 
 class CustomLogoutView(LogoutView):
    template_name = 'perfiles/logout.html'
