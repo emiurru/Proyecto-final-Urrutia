@@ -29,12 +29,13 @@
           <td>{{ tipo.id }}</td>
           <td>{{ tipo.nombre_credito }}</td>
           <td>{{ tipo.interes }}</td>
-          {% if user.is_authenticated %}
+          
           <td>
             <a href="{% url 'ver_tipo_creditos' tipo.id %}">
               <i class="bi bi-eye"></i>
             </a>
           </td>
+          {% if user.is_superuser %}
           <td>
             <a href="{% url 'editar_tipo_creditos' tipo.id %}">
               <i class="bi bi-pencil-square"></i>

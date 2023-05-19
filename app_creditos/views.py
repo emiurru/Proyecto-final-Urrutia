@@ -84,9 +84,9 @@ class CreditosListView(LoginRequiredMixin, ListView):
         busqueda = self.request.GET.get('busqueda', '')
         
         if self.request.user.is_superuser:
-            queryset = queryset.filter(cliente__apellido__icontains=busqueda)
+            queryset = queryset.filter(tipo_credito__nombre_credito__icontains=busqueda)
         else:
-            queryset = queryset.filter(cliente__user=self.request.user, cliente__apellido__icontains=busqueda)
+            queryset = queryset.filter(cliente__user=self.request.user, tipo_credito__nombre_credito__icontains=busqueda)
 
         return queryset
      
