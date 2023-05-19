@@ -26,11 +26,13 @@
                 <img width="130" height="140" alt="" sizes="(max-width: 78px) 10vw, 78px" src="{% static 'img/logo.png' %}" alt="Logo">
                 {% if not user.is_authenticated %}
                 <a class="navbar-brand" href="{% url 'inicio' %}">Inicio</a>
+                <a class="navbar-brand" href="{% url 'about' %}">Acerca de mi</a>
                 <a class="navbar-brand" href="{% url 'lista_tipo_creditos' %}">Tipos de créditos</a>
                 <a class="btn btn-primary" href="{% url 'login' %}">Iniciar sesión</a>
                 <a class="btn btn-success" href="{% url 'registro' %}">Registrarse</a>
                 {% else %}
                 <a class="navbar-brand" href="{% url 'inicio' %}">Inicio</a>
+                <a class="navbar-brand" href="{% url 'about' %}">Acerca de mi</a>
                 <a class="navbar-brand" href="{% url 'lista_tipo_creditos' %}">Tipos de créditos</a>
                 <a class="navbar-brand" href="{% url 'lista_creditos' %}">Créditos</a>
                 {% if user.is_superuser %}
