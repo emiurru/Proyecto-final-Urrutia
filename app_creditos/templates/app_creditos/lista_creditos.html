@@ -6,7 +6,7 @@
     <h1>Listado de créditos otorgados</h1>
     <a href="{% url 'crear_creditos' %}">Solicitar nuevo crédito</a>
     <br><br>
-    <form action="{% url 'buscar_creditos' %}" method="post">
+    <form action="{% url 'lista_creditos' %}" method="get">
       {% csrf_token %}
       <input type="text" name="busqueda">
       <input type="submit" value="Buscar crédito por apellido Cliente">
@@ -24,7 +24,7 @@
           <th>Importe cuota</th>
           <th>Acciones</th>
         </tr>
-        {% if credito.creador == request.user %}
+        
           {% for credito in object_list %}
           <tr>
             <td>{{ credito.id }}</td>
@@ -48,7 +48,7 @@
             
           </tr>
           {% endfor %}
-        {% endif %}
+        
       </tbody>
     </table>
   </div>

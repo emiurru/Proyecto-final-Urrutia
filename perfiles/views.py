@@ -5,8 +5,10 @@ from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import login, authenticate
 from app_creditos.models import Clientes
+from django.contrib.auth.mixins import LoginRequiredMixin
 
-from perfiles.forms import UserRegisterForm
+from perfiles.forms import UserRegisterForm, UserUpdateForm
+from django.views.generic import UpdateView
 
 
 
@@ -21,9 +23,9 @@ def registro(request):
             apellido = formulario.cleaned_data.get('last_name')
             dni = formulario.cleaned_data.get('dni')
             email = formulario.cleaned_data.get('email')
-            cliente = Clientes(nombre=nombre, apellido=apellido, dni=dni, email=email)
+            cliente = Clientes(user=usuario, nombre=nombre, apellido=apellido, dni=dni, email=email)
             cliente.save()
-
+         
             login(request, usuario)
             url_exitosa = reverse('inicio')
             return redirect(url_exitosa)
@@ -63,3 +65,11 @@ def login_view(request):
 
 class CustomLogoutView(LogoutView):
    template_name = 'perfiles/logout.html'
+
+class MiPerfilUpdateView(LoginRequiredMixin, UpdateView):
+   form_class = UserUpdateForm
+   success_url = reverse_lazy('inicio')
+   template_name = 'perfiles/formulario_perfil.html'
+
+   def get_object(self, queryset=None):
+       return self.request.user

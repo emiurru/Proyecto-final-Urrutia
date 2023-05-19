@@ -6,10 +6,10 @@
     <h1>Listado de clientes</h1>
     <a href="{% url 'crear_clientes' %}">Crear nuevo cliente</a>
     <br><br>
-    <form action="{% url 'buscar-clientes' %}" method="post">
+    <form action="{% url 'lista_clientes' %}" method="get">
       {% csrf_token %}
       <input type="text" name="busqueda">
-      <input type="submit" value="Buscar Cliente">
+      <input type="submit" value="Buscar por Apellido">
     </form>
     <br>
     <table class="table">

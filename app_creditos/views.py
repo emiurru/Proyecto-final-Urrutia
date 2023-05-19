@@ -17,6 +17,13 @@ class ClientesListView(LoginRequiredMixin, ListView):
     model = Clientes
     template_name = 'app_creditos/lista_clientes.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        busqueda = self.request.GET.get('busqueda', '')
+        queryset = queryset.filter(apellido__icontains=busqueda)
+        return queryset
+
 class ClientesCreateView(LoginRequiredMixin, CreateView):
     model = Clientes
     fields = ('apellido', 'nombre', 'dni', 'email')
@@ -39,6 +46,13 @@ class ClientesDeleteView(LoginRequiredMixin, DeleteView):
 class Tipo_creditoListView(ListView):
     model = Tipo_Credito
     template_name = 'app_creditos/lista_tipo_creditos.html'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        busqueda = self.request.GET.get('busqueda', '')
+        queryset = queryset.filter(nombre_credito__icontains=busqueda)
+        return queryset
 
 class Tipo_creditoCreateView(LoginRequiredMixin, CreateView):
     model = Tipo_Credito
@@ -64,10 +78,23 @@ class CreditosListView(LoginRequiredMixin, ListView):
     model = Creditos
     template_name = 'app_creditos/lista_creditos.html'
 
+    def get_queryset(self):
+        queryset = super().get_queryset()
+
+        busqueda = self.request.GET.get('busqueda', '')
+        queryset = queryset.filter(cliente__apellido__icontains=busqueda)
+        return queryset
+
 class CreditosCreateView(LoginRequiredMixin, CreateView):
     model = Creditos
-    fields = ('monto', 'cuotas', 'cliente', 'tipo_credito')
+    fields = ('monto', 'cuotas', 'tipo_credito')
     success_url = reverse_lazy('lista_creditos')
+
+    def form_valid(self, form):
+        cliente = self.request.user.cliente
+        form.instance.cliente = cliente
+
+        return super().form_valid(form)
 
   
 class CreditosDetailView(LoginRequiredMixin, DetailView):
@@ -107,54 +134,6 @@ class CreditosDeleteView(LoginRequiredMixin, DeleteView):
     success_url = reverse_lazy('lista_creditos')
 
 
-
-@login_required
-def buscar_clientes(request):
-    if request.method == "POST":
-        data = request.POST
-        busqueda = data["busqueda"]
-        clientes = Clientes.objects.filter(dni__contains=busqueda)
-        contexto = {
-            "clientes": clientes,
-        }
-        http_response = render(
-            request=request,
-            template_name='app_creditos/lista_clientes.html',
-            context=contexto,
-        )
-        return http_response
-    
-def buscar_tipo_creditos(request):
-    if request.method == "POST":
-        data = request.POST
-        busqueda = data["busqueda"]
-        tipo_creditos = Tipo_Credito.objects.filter(nombre_credito__icontains=busqueda)
-        contexto = {
-            "tipo_creditos": tipo_creditos,
-        }
-        http_response = render(
-            request=request,
-            template_name='app_creditos/tipo_creditos.html',
-            context=contexto,
-        )
-        return http_response
-
-@login_required
-def buscar_creditos(request):
-    if request.method == "POST":
-        data = request.POST
-        busqueda = data["busqueda"]
-        credito = Creditos.objects.filter(cliente__apellido__contains=busqueda)
-        contexto = {
-            "creditos": credito,
-        }
-        http_response = render(
-            request=request,
-            template_name='app_creditos/creditos.html',
-            context=contexto,
-        )
-        return http_response
-    
 def cotizar_cheque(request):
     if request.method == 'POST':
         monto = float(request.POST.get('monto'))
