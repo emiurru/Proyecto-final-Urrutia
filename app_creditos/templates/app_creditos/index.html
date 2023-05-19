@@ -3,5 +3,8 @@
 {% block contenido %}
 <div class="text-center">
     <h1>Bienvenidos a la nueva web de <span style="color: rgba(0, 255, 94, 0.644)">LONG</span><span style="color: rgb(60, 0, 255)">CRED</span></h1>
+    <br>
+    <h3>¡Hola, {{user.first_name}}!</h3>
+    <img src="{{ user.avatar.imagen.url }}" />
 </div>
 {% endblock contenido %}

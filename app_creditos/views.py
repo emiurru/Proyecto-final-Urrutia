@@ -82,9 +82,14 @@ class CreditosListView(LoginRequiredMixin, ListView):
         queryset = super().get_queryset()
 
         busqueda = self.request.GET.get('busqueda', '')
-        queryset = queryset.filter(cliente__apellido__icontains=busqueda)
-        return queryset
+        
+        if self.request.user.is_superuser:
+            queryset = queryset.filter(cliente__apellido__icontains=busqueda)
+        else:
+            queryset = queryset.filter(cliente__user=self.request.user, cliente__apellido__icontains=busqueda)
 
+        return queryset
+     
 class CreditosCreateView(LoginRequiredMixin, CreateView):
     model = Creditos
     fields = ('monto', 'cuotas', 'tipo_credito')
@@ -96,7 +101,6 @@ class CreditosCreateView(LoginRequiredMixin, CreateView):
 
         return super().form_valid(form)
 
-  
 class CreditosDetailView(LoginRequiredMixin, DetailView):
     model = Creditos
     success_url = reverse_lazy('lista_creditos')
@@ -122,7 +126,6 @@ class CreditosDetailView(LoginRequiredMixin, DetailView):
 
         context['cuotas'] = lista_cuotas
         return context
-    
     
 class CreditosUpdateView(LoginRequiredMixin, UpdateView):
     model = Creditos
