@@ -4,7 +4,6 @@ from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth.views import LogoutView
 from django.contrib.auth import login, authenticate
-from app_creditos.models import Clientes
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from perfiles.forms import UserRegisterForm, UserUpdateForm
@@ -18,16 +17,8 @@ def registro(request):
         formulario = UserRegisterForm(request.POST)
 
         if formulario.is_valid():
-            usuario = formulario.save() 
+            formulario.save() 
 
-            nombre = formulario.cleaned_data.get('first_name')
-            apellido = formulario.cleaned_data.get('last_name')
-            dni = formulario.cleaned_data.get('dni')
-            email = formulario.cleaned_data.get('email')
-            cliente = Clientes(user=usuario, nombre=nombre, apellido=apellido, dni=dni, email=email)
-            cliente.save()
-         
-            login(request, usuario)
             url_exitosa = reverse('inicio')
             return redirect(url_exitosa)
     else:  # GET

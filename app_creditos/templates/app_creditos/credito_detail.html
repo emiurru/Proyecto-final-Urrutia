@@ -12,13 +12,13 @@
   <strong>Tipo de crédito:</strong> {{object.tipo_credito}}
 </p> 
 <p>
-  <strong>Monto:</strong> ${{object.monto}}
+  <strong>Monto:</strong> ${{object.importe_credito}}
 </p>
 <p>
   <strong>Nro de Cuotas:</strong> {{object.cuotas}}
 </p>
 <p>
-  <strong>Importe Cuotas:</strong> ${{object.monto_cuota}}
+  <strong>Importe Cuotas:</strong> ${{object.importe_cuota}}
 </p>
 <p>
   <strong>Email:</strong> {{object.email}}
@@ -32,7 +32,7 @@
     </tr>
     {% for cuota in cuotas %}
     <tr>
-      <td>{{ cuota.nro_cuota }}</td>
+      <td>{{ cuota.numero_cuota }}</td>
       <td>{{ cuota.fecha_vencimiento }}</td>
       <td>${{ cuota.importe_cuota }}</td>
     </tr>

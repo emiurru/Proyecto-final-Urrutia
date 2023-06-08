@@ -3,8 +3,8 @@ from django.urls import path
 
 from app_creditos.views import cotizar_cheque, resultado_cotizacion,\
       ClientesListView, ClientesCreateView, ClientesDetailView, ClientesUpdateView, ClientesDeleteView, Tipo_creditoCreateView,\
-      Tipo_creditoListView, Tipo_creditoUpdateView, Tipo_creditoDeleteView, Tipo_creditoDetailView, CreditosListView,\
-      CreditosDeleteView, CreditosCreateView, CreditosDetailView, CreditosUpdateView
+      Tipo_creditoListView, Tipo_creditoUpdateView, Tipo_creditoDeleteView, Tipo_creditoDetailView, CreditoListView,\
+      CreditoDeleteView, CreditoCreateView, CreditoDetailView, CreditoUpdateView
 
 urlpatterns = [
     #URL Clientes
@@ -22,11 +22,11 @@ urlpatterns = [
     path('eliminar-tipo-creditos/<int:pk>/', Tipo_creditoDeleteView.as_view(), name="eliminar_tipo_creditos"),
        
     #URLs creditos
-    path('creditos/', CreditosListView.as_view(), name='lista_creditos'),
-    path('crear-creditos/', CreditosCreateView.as_view(), name='crear_creditos'),
-    path('creditos/<int:pk>/', CreditosDetailView.as_view(), name="ver_creditos"),
-    path('editar-creditos/<int:pk>/', CreditosUpdateView.as_view(), name="editar_creditos"),
-    path('eliminar-creditos/<int:pk>/', CreditosDeleteView.as_view(), name="eliminar_creditos"),
+    path('creditos/', CreditoListView.as_view(), name='lista_creditos'),
+    path('crear-creditos/', CreditoCreateView.as_view(), name='crear_creditos'),
+    path('creditos/<int:pk>/', CreditoDetailView.as_view(), name="ver_creditos"),
+    path('editar-creditos/<int:pk>/', CreditoUpdateView.as_view(), name="editar_creditos"),
+    path('eliminar-creditos/<int:pk>/', CreditoDeleteView.as_view(), name="eliminar_creditos"),
     
     #URLs cotizacion cheques
     path('formulario-cotizacion/', cotizar_cheque, name='cotizar-cheque'),

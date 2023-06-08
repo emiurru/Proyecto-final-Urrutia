@@ -1,7 +1,7 @@
 from typing import Any, Dict
 from django.shortcuts import render, redirect
 from django.urls import reverse, reverse_lazy
-from app_creditos.models import Clientes, Tipo_Credito, Creditos
+from app_creditos.models import Clientes, Tipo_Credito, Credito, Lista_cuota
 from .utils import calcular_descuento_cheque
 from datetime import datetime, timedelta
 from django.views.generic import ListView, CreateView, DetailView, UpdateView, DeleteView
@@ -74,8 +74,8 @@ class Tipo_creditoDeleteView(LoginRequiredMixin, DeleteView):
 
 #VISTAS DE CREDITOS
 
-class CreditosListView(LoginRequiredMixin, ListView):
-    model = Creditos
+class CreditoListView(LoginRequiredMixin, ListView):
+    model = Credito
     template_name = 'app_creditos/lista_creditos.html'
 
     def get_queryset(self):
@@ -83,57 +83,39 @@ class CreditosListView(LoginRequiredMixin, ListView):
 
         busqueda = self.request.GET.get('busqueda', '')
         
-        if self.request.user.is_superuser:
-            queryset = queryset.filter(tipo_credito__nombre_credito__icontains=busqueda)
-        else:
-            queryset = queryset.filter(cliente__user=self.request.user, tipo_credito__nombre_credito__icontains=busqueda)
+        
+        queryset = queryset.filter(tipo_credito__nombre_credito__icontains=busqueda)
+       
 
         return queryset
      
-class CreditosCreateView(LoginRequiredMixin, CreateView):
-    model = Creditos
-    fields = ('monto', 'cuotas', 'tipo_credito')
+class CreditoCreateView(LoginRequiredMixin, CreateView):
+    model = Credito
+    fields = ('cliente', 'importe_credito', 'tipo_credito', 'cuotas', 'importe_cuota')
     success_url = reverse_lazy('lista_creditos')
 
-    def form_valid(self, form):
-        cliente = self.request.user.cliente
-        form.instance.cliente = cliente
 
-        return super().form_valid(form)
-
-class CreditosDetailView(LoginRequiredMixin, DetailView):
-    model = Creditos
+class CreditoDetailView(LoginRequiredMixin, DetailView):
+    model = Credito
     success_url = reverse_lazy('lista_creditos')
     
+     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         credito = context['object']
-        #context['monto_cuota'] = credito.monto_cuota
-        
-        numero_cuotas = credito.cuotas
-        fecha_otorgamiento = credito.fecha_otorgamiento
 
-        lista_cuotas = []
-        for nro_cuota in range(1, numero_cuotas + 1):
-            fecha_vencimiento = fecha_otorgamiento + timedelta(days=30 * nro_cuota)
-            importe_cuota = credito.monto_cuota
-            cuota = {
-                'nro_cuota': nro_cuota,
-                'fecha_vencimiento': fecha_vencimiento,
-                'importe_cuota': importe_cuota,
-            }
-            lista_cuotas.append(cuota)
-
-        context['cuotas'] = lista_cuotas
+        cuotas = credito.lista_cuotas.all()
+        context['cuotas'] = cuotas
         return context
     
-class CreditosUpdateView(LoginRequiredMixin, UpdateView):
-    model = Creditos
-    fields = ('monto', 'cuotas', 'tipo_credito')
+      
+class CreditoUpdateView(LoginRequiredMixin, UpdateView):
+    model = Credito
+    fields = ('importe_cuota', 'tipo_credito', 'cuotas', 'importe_credito')
     success_url = reverse_lazy('lista_creditos')
 
-class CreditosDeleteView(LoginRequiredMixin, DeleteView):
-    model = Creditos
+class CreditoDeleteView(LoginRequiredMixin, DeleteView):
+    model = Credito
     success_url = reverse_lazy('lista_creditos')
 
 

@@ -4,9 +4,8 @@
 <section>
   <div class="text-center">
     <h1>Tipos de creditos</h1>
-    {% if user.is_superuser %}
     <a href="{% url 'crear_tipo_creditos' %}">Crear tipo de credito Nuevo</a>
-    {% endif %}
+    
     <br><br>
     <form action="{% url 'lista_tipo_creditos' %}" method="get">
       {% csrf_token %}

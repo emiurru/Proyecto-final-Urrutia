@@ -2,11 +2,16 @@
 
 {% block contenido %}
 <div class="text-center">
-    <h1>Bienvenidos a la nueva web de <span style="color: rgba(0, 255, 94, 0.644)">LONG</span><span style="color: rgb(60, 0, 255)">CRED</span></h1>
-    <br>
     {% if user.is_authenticated %}
-    <h3>¡Hola, {{user.username}}!</h3>
-    <img src="{{ user.avatar.imagen.url }}" />
+    <h1>Bienvenidos a <span style="color: rgba(0, 255, 94, 0.644)">LONG</span><span style="color: rgb(60, 0, 255)">CRED</span></h1>
+    {% else %}
+    <br>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-primary">Iniciar sesión</button>
+    </form>
     {% endif %}
+  
 </div>
 {% endblock contenido %}

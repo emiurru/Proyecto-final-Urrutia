@@ -1,9 +1,35 @@
 {% extends "app_creditos/base.html" %}
 
 {% block contenido %}
-<form method="post">
- {% csrf_token %}
- {{ form.as_p }}
- <input type="submit" value="Iniciar Sesión" />
-</form>
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6">
+      <div class="card login-form">
+        <div class="card-body d-flex flex-column align-items-center">
+          <form method="post" class="custom-form">
+            
+            {% csrf_token %}
+            <div class="d-flex flex-column align-items-center">
+              <h3>INICIAR SESIÓN</h3>
+              <div class="mb-3">
+                {{ form.username.label_tag }}
+                {{ form.username }}
+              </div>
+              <div class="mb-3">
+                {{ form.password.label_tag }}
+                {{ form.password }}
+              </div>
+              <input type="submit" value="Iniciar Sesión" class="btn btn-primary" />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 {% endblock contenido %}
+
+      
+            
+        
+ 

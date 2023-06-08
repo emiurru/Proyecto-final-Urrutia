@@ -2,7 +2,7 @@ from django.test import TestCase
 
 from .models import Clientes, Tipo_Credito
 
-class ClientesTest(TestCase):
+class ClienteTest(TestCase):
     
     def test_creacion_cliente(self):
         cliente = Clientes(apellido='Fernandez', nombre='Juliana', dni='35865423', email='juliana@prueba.com', creador='', user='')

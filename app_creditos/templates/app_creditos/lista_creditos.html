@@ -4,9 +4,7 @@
 <section>
   <div class="text-center">
     <h1>Listado de créditos otorgados</h1>
-    {% if  not user.is_superuser %}
     <a href="{% url 'crear_creditos' %}">Solicitar nuevo crédito</a>
-    {% endif %}
     <br><br>
     <form action="{% url 'lista_creditos' %}" method="get">
       {% csrf_token %}
@@ -33,9 +31,9 @@
             <td>{{ credito.fecha_otorgamiento }}</td>
             <td>{{ credito.cliente }}</td>
             <td>{{ credito.tipo_credito.nombre_credito }}</td>
-            <td>${{ credito.monto }}</td>
+            <td>${{ credito.importe_credito }}</td>
             <td>{{ credito.cuotas }}</td>
-            <td>${{ credito.monto_cuota }}</td>
+            <td>${{ credito.importe_cuota }}</td>
             <td>
               <a href="{% url 'ver_creditos' credito.id %}">Ver</a>
             </td>
